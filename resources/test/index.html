@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>QUnit Test Suite</title>
+	<link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen">
+	<script type="text/javascript" src="qunit/qunit.js"></script>
+
+  <script type="text/javascript" src="../lib/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" src="../lib/aframe-current-jquery.js"></script>
+
+  <script type="text/javascript" src="../src/core/browserid.js"></script>
+  <script type="text/javascript" src="../src/core/storage.js"></script>
+  <script type="text/javascript" src="../src/core/module.js"></script>
+  <script type="text/javascript" src="../src/core/module-tracker.js"></script>
+  <script type="text/javascript" src="../src/models/profile-model.js"></script>
+  <script type="text/javascript" src="../src/modules/profile-module.js"></script>
+
+  <script type="text/javascript" src="tests/core/storage_unit_test.js"></script>
+  <script type="text/javascript" src="tests/core/module_unit_test.js"></script>
+  <script type="text/javascript" src="tests/core/module-tracker_unit_test.js"></script>
+  <script type="text/javascript" src="tests/models/profile-model_unit_test.js"></script>
+  <script type="text/javascript" src="tests/modules/profile-module_unit_test.js"></script>
+</head>
+<body>
+	<h1 id="qunit-header">QUnit Test Suite</h1>
+	<h2 id="qunit-banner"></h2>
+	<div id="qunit-testrunner-toolbar"></div>
+	<h2 id="qunit-userAgent"></h2>
+	<ol id="qunit-tests"></ol>
+	<div id="qunit-fixture">
+    <form id="formModule">
+      <input type="text" name="fname" data-field />
+      <input type="text" name="lname" data-field />
+    </form>
+  </div>
+</body>
+</html>
