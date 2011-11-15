@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+  <title>Profile RP</title>
+  <script type="text/javascript" src="jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" src="../src/include.js"></script>
+</head>
+
+<body>
+
+  <button id="getProfile">Get Profile</button>
+
+  <p>
+    <label for="name">Name: </label><input type="text" id="name" name="name" />
+  </p>
+
+  <p>
+    <label for="photo">Photo:</label>
+    <img id="photo" alt="Your photo here!" />
+  </p>
+
+  <script type="text/javascript">
+
+    $("#getProfile").bind("click", function(event) {
+      event.preventDefault();
+
+      navigator.profile.get(function onComplete(profile) {
+        if(profile) {
+          if(profile.n) {
+            $("#name").val(profile.n); 
+          }
+
+          if(profile.photo) {
+            $("#photo").attr("src", profile.photo);
+          }
+        }
+        else {
+          console.log("could not get profile information");
+        } 
+      }, {
+        required: [ 'n' ],
+        optional: [ 'photo' ]
+      });
+    });
+  </script>
+
+</body>
+</html>
