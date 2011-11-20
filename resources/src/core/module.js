@@ -1,15 +1,17 @@
 BrowserID.Module = (function() {
 
   var bid = BrowserID,
-      dom = bid.DOM;
+      dom = bid.DOM,
+      af = AFrame,
+      sc;
 
-  var Module = AFrame.Display.extend({
+  var Module = af.Display.extend({
     init: function(config) {
-      if(typeof config.bindEvents === "undefined") {
+      if(!af.defined(config.bindEvents)) {
         config.bindEvents = false;
       }
 
-      Module.sc.init.call(this, config);
+      sc.init.call(this, config);
     },
 
     teardown: function() {
@@ -19,7 +21,7 @@ BrowserID.Module = (function() {
         self.stop();
       }
 
-      Module.sc.teardown.call(self);
+      sc.teardown.call(self);
     },
 
     start: function(data) {
@@ -48,6 +50,8 @@ BrowserID.Module = (function() {
       this.unbindDOMEvents();
     }
   });
+
+  sc = Module.sc;
 
   return Module;
 
