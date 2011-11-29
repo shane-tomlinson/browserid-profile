@@ -41,29 +41,29 @@ BrowserID.Modules.Profile = (function() {
   var bid = BrowserID,
       Module = bid.Module,
       dom = bid.DOM,
-      mediator = bid.Mediator,
-      fields = ["name", "email"];
+      mediator = bid.Mediator;
 
   function getSelector(key) {
     return "[name=" + key + "]";
   }
 
-  function createForm(data) {
-    fields.forEach(function(key) {
-      dom.setInner(getSelector(key), data.get(key));
+  function createForm(model) {
+    model.keys().forEach(function(key) {
+      dom.setInner(getSelector(key), model.get(key));
     });
   }
 
   function saveFormData() {
     var model = this.getStartData();
-    fields.forEach(function(key) {
+    model.keys().forEach(function(key) {
       model.set(key, dom.getInner(getSelector(key)));
     });
   }
 
   function getFormData() {
-    var formData = {};
-    fields.forEach(function(key) {
+    var model = this.getStartData(),
+        formData = {};
+    model.keys().forEach(function(key) {
       formData[key] = dom.getInner(getSelector(key));
     });
     

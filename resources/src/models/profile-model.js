@@ -41,6 +41,7 @@
       storage = bid.Storage,
       schema = {
         name: { type: 'string' },
+        email: { type: 'string' },
         avatar: { type: 'string' }
       };
 
@@ -71,6 +72,10 @@
 
     toObject: function() {
       return this.data; 
+    },
+
+    keys: function() {
+      return Object.keys(schema);
     },
 
     save: function() {

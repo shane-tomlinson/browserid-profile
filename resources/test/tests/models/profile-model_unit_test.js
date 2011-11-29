@@ -40,14 +40,17 @@
   var bid = BrowserID,
       storage = bid.Storage,
       Profile = bid.Models.Profile,
-      profile;
+      profile,
+      data = {
+        name: "Jack" 
+      };
 
   module("models/profile-model", {
     setup: function() {
+      data.name = "Jack";
+
       profile = Profile.create({ 
-        data: {
-          "name": "Jack"
-        }
+        data: data
       });
     },
 
@@ -77,5 +80,21 @@
     profile.load();
     
     equal(profile.get("name"), "Clark", "name loaded from storage on load");
+  });
+
+  test("toObject returns an object", function() {
+    var obj = profile.toObject();
+
+    for(var key in data) {
+      equal(obj[key], data[key], "toObject returns same value for: " + key);
+    }
+  });
+
+  test("keys returns data keys in object", function() {
+    var keys = profile.keys();
+
+    for(var key in data) {
+      ok(keys.indexOf(key) > -1, key + " is in the set of returned keys");
+    }
   });
 }());
