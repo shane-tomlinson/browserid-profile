@@ -46,8 +46,7 @@
     setup: function() {
       profile = Profile.create({ 
         data: {
-          "fname": "Jack",
-          "lname": "Sparrow"
+          "name": "Jack"
         }
       });
     },
@@ -62,26 +61,22 @@
 
   test("Can create profile model", function() {
     ok(profile, "can create a model");
-    equal(profile.get("fname"), "Jack", "first name set");
-    equal(profile.get("lname"), "Sparrow", "last name set");
+    equal(profile.get("name"), "Jack", "first name set");
   });
 
   test("saving a model persists data", function() {
-    profile.set("fname", "Captain");
+    profile.set("name", "Captain");
 
     profile.save();
     
-    equal(storage.profile.get("fname"), "Captain", "fname saved to storage on save");
-    equal(storage.profile.get("lname"), "Sparrow", "lname saved to storage on save");
+    equal(storage.profile.get("name"), "Captain", "name saved to storage on save");
   });
 
   test("loading a model loads model correctly", function() {
-    storage.profile.set("fname", "Clark");
-    storage.profile.set("lname", "Kent");
+    storage.profile.set("name", "Clark");
 
     profile.load();
     
-    equal(profile.get("fname"), "Clark", "fname loaded from storage on load");
-    equal(profile.get("lname"), "Kent", "lname loaded from storage on load");
+    equal(profile.get("name"), "Clark", "name loaded from storage on load");
   });
 }());

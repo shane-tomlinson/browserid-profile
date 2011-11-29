@@ -43,10 +43,27 @@
 
   };
 
+  var WinMock = {
+    open: function(url, options) {
+    },
+
+    close: function() {
+    },
+
+    addEventListener: function() {
+
+    },
+
+    removeEventListener: function() {
+
+    }
+  };
+
   module("include.js", {
     setup: function() {
       profile.init({
-        channel: ChannelMock
+        channel: ChannelMock,
+        window: WinMock
       });
     },
     teardown: function() {
@@ -57,10 +74,11 @@
     profile.get(function(profile) {
       ok(profile.n, "name is returned");
       ok(profile.photo, "photo is returned");
+      ok(profile.email, "email is returned");
       start(); 
     }, {
-      required: ['name'],
-      optional: ['photo']
+      required: ["name", "email"],
+      optional: ["photo"]
     });
 
     stop();

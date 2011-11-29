@@ -40,17 +40,19 @@
   var bid = BrowserID,
       ProfileModel = bid.Models.Profile,
       ProfileModule = bid.Modules.Profile,
+      mediator = bid.Mediator,
       model,
       profileModule;
 
   module("modules/profile_module", {
     setup: function() {
+      mediator.reset();
+
       $("#formModule input").val("");
 
       model = ProfileModel.create({ 
         data: {
-          fname: "Browser",
-          lname: "ID"
+          name: "John Bravo",
         }
       });
 
@@ -60,6 +62,7 @@
     },
 
     teardown: function() {
+      mediator.reset();
       model.teardown();
       profileModule.teardown();
     }
@@ -68,26 +71,28 @@
   
   test("profile module start fills in data", function() {
     // no data filled in before start
-    equal($("input[name=fname]").val(), "", "input not filled in before start");
-    equal($("input[name=lname]").val(), "", "input not filled in before start");
+    equal($("input[name=name]").val(), "", "input not filled in before start");
 
     profileModule.start(model);
 
-    equal($("input[name=fname]").val(), "Browser", "inputfilled in after start");
-    equal($("input[name=lname]").val(), "ID", "input filled in after start");
+    equal($("input[name=name]").val(), "John Bravo", "inputfilled in after start");
   });
 
-  test("data is not autosaved to model, but saved on submit", function() {
+  asyncTest("data is not autosaved to model, but saved on submit.  Submit raises message", function() {
     profileModule.start(model);
 
-    $("input[name=fname]").val("BrowserID");
+    $("input[name=name]").val("Johnny Bravo");
 
+    equal(model.get("name"), "John Bravo", "model not updated until submit");
 
-    equal(model.get("fname"), "Browser", "model not updated until submit");
+    mediator.subscribe("profile_save", function(msg, data) {
+      equal(model.get("name"), "Johnny Bravo", "model updated on submit");
 
+      equal(data.name, "Johnny Bravo", "data name passed correctly");
+
+      start();
+    });
     profileModule.submit();
-
-    equal(model.get("fname"), "BrowserID", "model updated on submit");
   });
 
   test("exception thrown if saving before start", function() {
@@ -107,10 +112,24 @@
     profileModule.stop();
 
     // this should have no effect on the element after stop
-    model.set("fname", "BrowserID");
-    equal($("input[name=fname]").val(), "Browser", "after teardown, changes to the model do not effect fields");
+    model.set("name", "Johnny Bravo");
+    equal($("input[name=name]").val(), "John Bravo", "after teardown, changes to the model do not effect fields");
   });
 
+  asyncTest("ok click", function() {
+    profileModule.start(model);
+
+    mediator.subscribe("profile_ready", function(msg, data) {
+      equal(data.name, "Johnny Bravo", "data name passed correctly");
+
+      equal(model.get("name"), "John Bravo", "model has not changed on ok");
+      start();
+    });
+
+    $("input[name=name]").val("Johnny Bravo");
+
+    profileModule.ok();
+  });
 
 }());
 

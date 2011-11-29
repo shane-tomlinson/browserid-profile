@@ -1,5 +1,4 @@
-/*jshint browsers:true, forin: true, laxbreak: true */
-/*global BrowserID: true, _: true */
+/*globals BrowserID: true */
 /* ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
@@ -34,35 +33,15 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  *
  * ***** END LICENSE BLOCK ***** */
-(function() {
-  "use strict";
 
-  var bid = BrowserID,
-      storage = bid.Storage,
-      schema = {
-        name: { type: 'string' },
-        avatar: { type: 'string' }
-      };
+BrowserID.Mediator = (function() {
+  var hub = Hub;
 
-
-  bid.Models = BrowserID.Models || {};
-
-  bid.Models.Profile = AFrame.Model.extend({
-    schema: schema,
-
-    save: function() {
-      var self = this;
-      var data = self.toSerializedJSON();
-      for(var key in data) {
-        storage.profile.set(key, data[key]);            
-      }
-    },
-
-    load: function() {
-      for(var key in schema) {
-        this.set(key, storage.profile.get(key));
-      }
-    }
-  });
+  return {
+    subscribe: hub.on.bind(hub),
+    unsubscribe: hub.off.bind(hub),
+    publish: hub.fire.bind(hub),
+    reset: hub.reset.bind(hub)
+  };
 }());
 

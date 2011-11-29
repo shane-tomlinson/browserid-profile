@@ -8,16 +8,19 @@
 
   <script type="text/javascript" src="../lib/jquery-1.6.2.min.js"></script>
   <script type="text/javascript" src="../lib/aframe-current-jquery.js"></script>
+  <script type="text/javascript" src="../src/core/browserid.js"></script>
+  <script type="text/javascript" src="../lib/module.js"></script>
+  <script type="text/javascript" src="../lib/hub.js"></script>
 
   <script type="text/javascript" src="../src/include.js"></script>
-  <script type="text/javascript" src="../src/core/browserid.js"></script>
   <script type="text/javascript" src="../src/core/storage.js"></script>
+  <script type="text/javascript" src="../src/core/mediator.js"></script>
   <script type="text/javascript" src="../src/core/module.js"></script>
   <script type="text/javascript" src="../src/core/module-tracker.js"></script>
   <script type="text/javascript" src="../src/models/profile-model.js"></script>
   <script type="text/javascript" src="../src/modules/profile-module.js"></script>
 
-  <script type="text/javascript" src="tests/include_unit_test.js"></script>
+  <!--script type="text/javascript" src="tests/include_unit_test.js"></script-->
   <script type="text/javascript" src="tests/core/storage_unit_test.js"></script>
   <script type="text/javascript" src="tests/core/module_unit_test.js"></script>
   <script type="text/javascript" src="tests/core/module-tracker_unit_test.js"></script>
@@ -32,8 +35,7 @@
 	<ol id="qunit-tests"></ol>
 	<div id="qunit-fixture">
     <form id="formModule">
-      <input type="text" name="fname" data-field />
-      <input type="text" name="lname" data-field />
+      <input type="text" name="name" data-field />
     </form>
   </div>
 </body>

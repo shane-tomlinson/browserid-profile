@@ -40,31 +40,62 @@ BrowserID.Modules.Profile = (function() {
 
   var bid = BrowserID,
       Module = bid.Module,
-      dom = bid.DOM;
+      dom = bid.DOM,
+      mediator = bid.Mediator;
 
-  function formSubmit() {
+  function createForm(data) {
+    var self=this,
+        form = AFrame.DataForm.create({
+          target: self.target,
+          data: data
+        });
+
+    return form
+  }
+
+  function getFormData() {
+    var formData = {};
+
+    this.form.forEach(function(formField, index) {
+      var fieldName = AFrame.DOM.getAttr(formField.getTarget(), "name");
+      formData[fieldName] = formField.get();
+    });
+
+    return formData;
+  }
+
+  function formSubmit(event) {
+    event && event.preventDefault();
+
     var self=this;
     if(!self.isRunning()) {
       throw "cannot save module if not running";
     }
 
     self.form.save();
+    var model = self.getStartData();
+    model.save();
+    mediator.publish("profile_save", model.toJSON());
+  }
+
+  function ok(event) {
+    event && event.preventDefault();
+
+    var formData = getFormData.call(this);
+    mediator.publish("profile_ready", formData);
   }
 
   var Profile = Module.extend({
     domevents: {
-      "submit form": formSubmit
+      "submit form": formSubmit,
+      "click #ok": ok
     },
 
     start: function(data) {
       var self=this;
       Profile.sc.start.call(self, data);
 
-      // Create the form when we have the appropriate data
-      self.form = AFrame.DataForm.create({
-        target: self.target,
-        data: data
-      });
+      self.form = createForm.call(self, data);
     },
 
     stop: function() {
@@ -76,7 +107,8 @@ BrowserID.Modules.Profile = (function() {
       delete self.form;
     },
 
-    submit: formSubmit
+    submit: formSubmit,
+    ok: ok
   });
 
   return Profile;
