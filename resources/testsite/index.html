@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+  <title>My Favorite Blog</title>
+  <script type="text/javascript" src="jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" src="../src/include.js"></script>
+</head>
+
+<body>
+
+  <header>
+    <h1>My Favorite Blog</h1>
+  </header>
+
+  <article>
+    <h2>Controversial Blog Post</h2>
+    <p>
+      This is a very controversial article that invites comments.
+    </p>
+    
+    <h3>Comments</h3>
+
+    <div id="comments">
+    </div>
+
+    <form>
+      <label for="comment">Your Comment:</label>
+      <textarea id="comment" name="comment" required></textarea>
+      <button>Post Comment</button>
+    </form>
+
+  </article>
+
+  <script type="text/html" id="templateComment">
+    <aside>
+      <header>
+        By: <cite><a href="mailto:{{email}}">{{name}}</a></cite> <img src="{{photo}}" />
+      </header>
+
+      <p>
+        {{comment}}
+      </p>
+    </aside>
+  </script>
+
+  <script type="text/javascript">
+    function onComplete(profile) {
+      if(profile) {
+        var comment = $("#comment").val(),
+            template = $("#templateComment").html();
+
+        template = template.replace("{{name}}", profile.n)
+                           .replace("{{email}}", profile.email)
+                           .replace("{{photo}}", profile.photo)
+                           .replace("{{comment}}", comment);
+
+        $("#comments").append($(template));
+      }
+      else {
+        console.log("could not get profile information");
+      } 
+    }
+  
+
+    $("form").bind("submit", function(event) {
+      event.preventDefault();
+
+      var comment = $("#comment").val();
+      if(comment) {
+        navigator.profile.get(onComplete, {
+          required: [ 'n' ],
+          optional: [ 'photo' ]
+        });
+      }
+      else {
+        alert("comment is required");
+      }
+    });
+  </script>
+
+  <footer>
+  </footer>
+</body>
+</html>
