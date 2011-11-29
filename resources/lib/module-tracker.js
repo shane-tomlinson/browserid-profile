@@ -1,9 +1,10 @@
 /**
- * Original code authored by Shane Tomlinson
- * original source: https://github.com/stomlinson/appcore/blob/master/js/module.js
- * Licensed under Mozilla Tri-License
- */
-BrowserID.moduleTracker = (function() {
+* Author Shane Tomlinson
+* Original source can be found at:
+* https://github.com/stomlinson/appcore/blob/master/js/module.js
+* Licences under Mozilla Tri-License
+*/
+BrowserID.module = (function() {
   "use strict";
 
   var registration = {},
@@ -75,11 +76,21 @@ BrowserID.moduleTracker = (function() {
     }
   }
 
+  function stopAll() {
+    for(var key in running) {
+      var module = running[key];
+      module.stop();
+      delete running[key];
+    }
+  }
+
+
   return {
     register: register,
     getModule: getModule,
     reset: reset,
     start: start,
-    stop: stop
+    stop: stop,
+    stopAll: stopAll
   };
 }());

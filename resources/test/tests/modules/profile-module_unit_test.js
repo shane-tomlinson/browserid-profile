@@ -63,8 +63,7 @@
 
     teardown: function() {
       mediator.reset();
-      model.teardown();
-      profileModule.teardown();
+      profileModule.destroy();
     }
   });
 
@@ -75,7 +74,7 @@
 
     profileModule.start(model);
 
-    equal($("input[name=name]").val(), "John Bravo", "inputfilled in after start");
+    equal($("input[name=name]").val(), "John Bravo", "input filled in after start");
   });
 
   asyncTest("data is not autosaved to model, but saved on submit.  Submit raises message", function() {
@@ -113,7 +112,7 @@
 
     // this should have no effect on the element after stop
     model.set("name", "Johnny Bravo");
-    equal($("input[name=name]").val(), "John Bravo", "after teardown, changes to the model do not effect fields");
+    equal($("input[name=name]").val(), "John Bravo", "after stop, changes to the model do not effect fields");
   });
 
   asyncTest("ok click", function() {

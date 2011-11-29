@@ -39,30 +39,26 @@
 
   var Module = BrowserID.Module,
       mod,
-      config = {
-        target: "#formModule"
-      };
+      config = {};
 
   module("core/module", {
     setup: function() {
+      mod = Module.create(config);
     },
 
     teardown: function() {
       if (mod) {
-        mod.teardown();
+        mod.destroy();
       }
     }
   });
 
   test("can create, initialize with data", function() {
-    mod = Module.create(config);
-
     equal(mod.getConfig(), config, "config is saved in init");
     equal(mod.isRunning(), false, "module is not yet running");
   });
 
   test("start starts the module", function() {
-    mod = Module.create(config);
     mod.start("data");
 
     equal(mod.getStartData(), "data", "data is set on start");
@@ -70,7 +66,6 @@
   });
 
   test("cannot call start twice without stopping", function() {
-    mod = Module.create(config);
     mod.start("data");
 
     var error;
@@ -84,7 +79,6 @@
   });
 
   test("stop stops the module", function() {
-    mod = Module.create(config);
     mod.start("data");
     mod.stop();
 
@@ -92,7 +86,6 @@
   });
 
   test("cannot call stop without calling start", function() {
-    mod = Module.create(config);
     var error;
     try {
       mod.stop();
@@ -104,7 +97,6 @@
   });
 
   test("cannot call stop twice consecutively without start", function() {
-    mod = Module.create(config);
     mod.start("data");
     mod.stop();
     var error;
@@ -117,37 +109,9 @@
     equal(error, "module is not running");
   });
 
-  test("dom events are bound on start if domevents are declared, events unbound when stop is called", function() {
-    function formClick(event) {
-      event.preventDefault();
-      this.clicked = true;
-    }
-
-    var InheritedModule = Module.extend({
-      domevents: {
-        "click form": formClick
-      }
-    });
-
-    mod = InheritedModule.create(config);
-
-    // bind the dom events
-    mod.start();
-
-    $("#formModule").trigger("click");
-    ok(mod.clicked, "event bound, handler run");
-
-    // unbind the dom events
-    mod.clicked = false;
-    mod.stop();
-    $("#formModule").trigger("click");
-    equal(mod.clicked, false, "event not bound, handler not run");
-  });
-
   test("teardown stops module", function() {
-    mod = Module.create(config);
     mod.start("data");
-    mod.teardown();
+    mod.destroy();
 
     equal(mod.isRunning(), false, "module is no longer running after teardown");
     mod = null;

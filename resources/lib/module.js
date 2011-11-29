@@ -1,96 +1,58 @@
-/**
-* Author Shane Tomlinson
-* Original source can be found at:
-* https://github.com/stomlinson/appcore/blob/master/js/module.js
-* Licences under Mozilla Tri-License
-*/
-BrowserID.module = (function() {
-  "use strict";
+BrowserID.Module = (function() {
 
-  var registration = {},
-      created = {},
-      running = {};
+  var bid = BrowserID,
+      dom = bid.DOM,
+      sc;
 
-  function register(service, module, config) {
-    if (!module) {
-      throw "module constructor missing for " + service;
-    }
+  var Module = bid.Class({
+    init: function(config) {
+      var self=this;
 
-    registration[service] = {
-      constructor: module,
-      config: config
-    };
-  }
+      self.config = config;
+    },
 
-  function getRegistration(service) {
-    return registration[service];
-  }
+    destroy: function() {
+      var self=this;
 
-  function getModule(service) {
-    return registration[service].constructor;
-  }
-
-  function reset() {
-    registration = {};
-    running = {};
-    created = {};
-  }
-
-  function start(service, data) {
-    if (running[service]) {
-      throw "module already running for " + service;
-    }
-
-    var module = created[service];
-
-    if (!module) {
-      var registration = getRegistration(service);
-      if (registration) {
-        var constr = registration.constructor,
-            config = registration.config;
-
-        module = new constr();
-        created[service] = module;
-        module.init(config);
+      if(self.running) {
+        self.stop();
       }
-      else {
-        throw "module not registered for " + service;
+    },
+
+    getConfig: function() {
+      return this.config;
+    },
+
+    start: function(data) {
+      var self=this;
+      if (self.running) {
+        throw "module is already running";
       }
+      self.startData = data; 
+      self.running = true;
+    },
+
+    getStartData: function() {
+      return this.startData;
+    },
+
+    isRunning: function() {
+      return !!this.running;
+    },
+
+    stop: function() {
+      var self=this;
+      if (!self.running) {
+        throw "module is not running";
+      }
+      self.running = false;
     }
+  });
 
-    module.start(data);
-    running[service] = module;
+  sc = Module.sc;
 
-    return module;
-  }
+  return Module;
 
-  function stop(service) {
-    var module = running[service];
-
-    if (module) {
-      module.stop();
-      delete running[service];
-    }
-    else {
-      throw "module not started for " + service;
-    }
-  }
-
-  function stopAll() {
-    for(var key in running) {
-      var module = running[key];
-      module.stop();
-      delete running[key];
-    }
-  }
-
-
-  return {
-    register: register,
-    getModule: getModule,
-    reset: reset,
-    start: start,
-    stop: stop,
-    stopAll: stopAll
-  };
 }());
+
+

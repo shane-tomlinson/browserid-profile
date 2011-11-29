@@ -53,7 +53,6 @@
 
     teardown: function() {
       if(profile) {
-        profile.teardown();
         profile = null;
       }
     }

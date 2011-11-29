@@ -47,13 +47,36 @@
 
   bid.Models = BrowserID.Models || {};
 
-  bid.Models.Profile = AFrame.Model.extend({
-    schema: schema,
+  bid.Models.Profile = BrowserID.Class({
+    init: function(config) {
+      var self=this;
+
+      self.data = {};
+      var data = config && config.data;
+
+      if(data) {
+        for(var key in schema) {
+          self.data[key] = data[key];
+        }
+      }
+    },
+
+    set: function(key, value) {
+      this.data[key] = value;
+    },
+
+    get: function(key) {
+      return this.data[key];
+    },
+
+    toObject: function() {
+      return this.data; 
+    },
 
     save: function() {
       var self = this;
-      var data = self.toSerializedJSON();
-      for(var key in data) {
+      var data = self.data;
+      for(var key in schema) {
         storage.profile.set(key, data[key]);            
       }
     },

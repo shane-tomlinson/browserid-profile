@@ -44,33 +44,43 @@
   </script>
 
   <script type="text/javascript">
-    function onComplete(profile) {
+    var userProfile;
+
+    function printComment(comment, profile) {
+      var template = $("#templateComment").html();
+
+      template = template.replace("{{name}}", profile.name)
+                         .replace("{{email}}", profile.email)
+                         .replace("{{photo}}", profile.photo)
+                         .replace("{{comment}}", comment);
+
+      $("#comments").append($(template));
+    }
+
+    function onComplete(comment, profile) {
       if(profile) {
-        var comment = $("#comment").val(),
-            template = $("#templateComment").html();
-
-        template = template.replace("{{name}}", profile.n)
-                           .replace("{{email}}", profile.email)
-                           .replace("{{photo}}", profile.photo)
-                           .replace("{{comment}}", comment);
-
-        $("#comments").append($(template));
+        userProfile = profile;
+        printComment(comment, profile);
       }
       else {
         console.log("could not get profile information");
       } 
     }
-  
 
     $("form").bind("submit", function(event) {
       event.preventDefault();
 
       var comment = $("#comment").val();
       if(comment) {
-        navigator.profile.get(onComplete, {
-          required: [ 'n' ],
-          optional: [ 'photo' ]
-        });
+        if(!userProfile) {
+          navigator.profile.get(onComplete.bind(null, comment), {
+            required: [ 'name' ],
+            optional: [ 'photo' ]
+          });
+        }
+        else {
+          onComplete(comment, userProfile)
+        }
       }
       else {
         alert("comment is required");

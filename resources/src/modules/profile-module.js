@@ -44,23 +44,23 @@ BrowserID.Modules.Profile = (function() {
       mediator = bid.Mediator;
 
   function createForm(data) {
-    var self=this,
-        form = AFrame.DataForm.create({
-          target: self.target,
-          data: data
-        });
+    dom.setInner("[name=name]", data.get("name"));
+    dom.setInner("[name=email]", data.get("email"));
+  }
 
-    return form
+  function saveFormData() {
+    var model = this.getStartData();
+    model.set("name", dom.getInner("[name=name]"));
+    model.set("email", dom.getInner("[name=email]"));
   }
 
   function getFormData() {
-    var formData = {};
+    var formData = {
+      name: dom.getInner("[name=name]"),
+      email: dom.getInner("[name=email]")
+    };
 
-    this.form.forEach(function(formField, index) {
-      var fieldName = AFrame.DOM.getAttr(formField.getTarget(), "name");
-      formData[fieldName] = formField.get();
-    });
-
+    
     return formData;
   }
 
@@ -72,39 +72,29 @@ BrowserID.Modules.Profile = (function() {
       throw "cannot save module if not running";
     }
 
-    self.form.save();
+    saveFormData.call(self);
     var model = self.getStartData();
     model.save();
-    mediator.publish("profile_save", model.toJSON());
+    self.publish("profile_save", model.toObject());
   }
 
   function ok(event) {
     event && event.preventDefault();
 
-    var formData = getFormData.call(this);
-    mediator.publish("profile_ready", formData);
+    var self=this,
+        formData = getFormData.call(self);
+    self.publish("profile_ready", formData);
   }
 
-  var Profile = Module.extend({
-    domevents: {
-      "submit form": formSubmit,
-      "click #ok": ok
-    },
-
+  var Profile = bid.Modules.PageModule.extend({
     start: function(data) {
       var self=this;
       Profile.sc.start.call(self, data);
 
-      self.form = createForm.call(self, data);
-    },
+      createForm.call(self, data);
 
-    stop: function() {
-      Profile.sc.stop.call(this);
-
-      var self=this;
-      // After stop, changes to model should have no effect on the form fields.
-      self.form.teardown();
-      delete self.form;
+      self.bind("form", "submit", formSubmit);
+      self.bind("#ok", "click", ok);
     },
 
     submit: formSubmit,
