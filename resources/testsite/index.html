@@ -25,7 +25,7 @@
 
     <form>
       <label for="comment">Your Comment:</label>
-      <textarea id="comment" name="comment" required></textarea>
+      <textarea id="comment" name="comment" required autofocus></textarea>
       <button>Post Comment</button>
     </form>
 
@@ -34,7 +34,7 @@
   <script type="text/html" id="templateComment">
     <aside>
       <header>
-        By: <cite><a href="mailto:{{email}}">{{name}}</a></cite> <img src="{{photo}}" width=100 height=100/>
+        By: <cite><a href="mailto:{{email}}">{{name}}</a></cite> <img src="{{photo}}" width=50 height=50/>
       </header>
 
       <p>
@@ -58,6 +58,7 @@
     }
 
     function onComplete(comment, profile) {
+      $("#comment").val("").focus();
       if(profile) {
         userProfile = profile;
         printComment(comment, profile);
