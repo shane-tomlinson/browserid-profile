@@ -16,38 +16,65 @@
   <script src="/src/models/profile-model.js"></script>
   <script src="/src/modules/profile-module.js"></script>
   <script src="/src/start.js"></script>
+  <link href="css/common.css" rel="stylesheet" type="text/css">
+  <link href="css/popup.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-  The site would like the following info:
+  <div id="wrapper">
+    <header id="header" class="cf">
+        <ul>
+            <li><a class="home" target="_blank" href="/"></a></li>
+        </ul>
+    </header>
 
-  <form>
-    <p>
-      <label for="name">Name:</label>
-      <input id="name" name="name" data-field />
+    <div id="content" class="profile">
+        <div id="signIn">
+          <div class="vertical">
+            <strong>The site would like the following info:</strong>
 
-      <label for="allow_name">Allow:</label>
-      <input type="checkbox" checked="checked" name="allow_name" for="name" />
-    </p>
+            <form class="form_section">
+              <ul class="inputs">
+                <li>
+                  <label for="name">Name:</label>
+                  <input type="text" id="name" name="name" data-field />
 
-    <p>
-      <label for="email">Email:</label>
-      <input id="email" name="email" data-field />
+                  <input type="checkbox" checked="checked" name="allow_name" for="name" />
+                  <label for="allow_name">Allow</label>
+                </li>
 
-      <label for="allow_email">Allow:</label>
-      <input type="checkbox" checked="checked" name="allow_email" for="email" />
-    </p>
+                <li>
+                  <label for="email">Email:</label>
+                  <input type="email" id="email" name="email" data-field />
 
-    <p>
-      <label for="photo">Photo:</label>
-      <img id="photo" />
+                  <input type="checkbox" checked="checked" name="allow_email" for="email" />
+                  <label for="allow_email">Allow</label>
+                </li>
 
-      <label for="allow_photo">Allow:</label>
-      <input type="checkbox" checked="checked" name="allow_photo" for="photo" />
-    </p>
+                <li>
+                  <label for="photo">Photo:</label>
+                  <img id="photo" />
 
-    <input type="submit" value="Save" />
-    <input type="submit" value="OK" id="ok" />
-  </form>
+                  <input type="checkbox" checked="checked" name="allow_photo" for="photo" />
+                  <label for="allow_photo">Allow</label>
+                </li>
+              </ul>
+
+              <div class="submit cf">
+                <button>Save</button>
+                <button id="ok">OK</button>
+              </div>
+            </form>
+          </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="learn">
+            BrowserID is the fast and secure way to sign in &mdash; <a target="_blank" href="/about">learn more</a>
+        </div>
+
+    </footer>
+  </div>
 </body>
 </html>
 

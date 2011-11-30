@@ -1,0 +1,365 @@
+
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 150%;
+    color: #222;
+    font-weight: bold;
+}
+
+
+#wrapper {
+    min-width: 640px;
+    position: relative;
+}
+
+
+.table {
+    display: table;
+    width: 100%;
+}
+
+.vertical {
+    height: 250px;
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+}
+
+#content {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+section {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+}
+
+section > .contents {
+    display: table-cell;
+    vertical-align: middle;
+    height: 250px;
+}
+
+#wait {
+    text-align: center;
+    z-index: 1;
+    background-image: url("/i/bg.png");
+}
+
+#error {
+    position: absolute;
+    text-align: center;
+    display: none;
+    z-index: 2;
+    background-color: #fff;
+}
+
+#wait strong, #error strong {
+    color: #222;
+    font-weight: bold;
+}
+
+
+#error.unsupported .vertical {
+    width: 630px;
+    margin: 0 auto;
+    display: block;
+}
+
+
+#error.unsupported .vertical > div {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0 10px;
+    height: 250px;
+}
+
+#error #moreInfo {
+    display: none;
+}
+
+#error a {
+    color: #549FDC;
+    text-decoration: underline;
+}
+
+#error #borderbox {
+    border-left: 1px solid #777;
+    padding: 20px 0;
+}
+
+#error #borderbox img {
+    border: none;
+}
+
+#error #alternative .lighter {
+    color: #777;
+}
+
+
+#formWrap {
+    background-color: #fff;
+    background-image: none;
+    display: block;
+}
+
+#signIn {
+    background-image: url('/i/bg.png');
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#signIn .table {
+    width: 325px;
+    margin-right: 40px;
+}
+
+.arrow {
+    width: 40px;
+    height: 250px;
+    display: block;
+    position: absolute;
+    right: 0px;
+    top: 0;
+    background-image: url('/i/arrow.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #fff;
+}
+
+#favicon {
+    position: absolute;
+    left: 375px;
+    top: 0;
+    right: 0;
+    z-index: 10;
+}
+
+#favicon strong {
+    font-size: 1.5em;
+}
+
+#favicon img {
+    display: block;
+    margin: 0 auto 10px;
+}
+
+#favicon .vertical {
+    display: block;
+    line-height: 250px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+div#required_email {
+    padding-top: .7em;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+#signIn .vertical {
+    padding: 0 20px;
+}
+
+#signIn .vertical ul {
+  position: relative;
+}
+
+#signIn .vertical ul li {
+  margin-top: 10px;
+}
+
+#signIn .vertical ul li:first-child {
+  margin-top: 0;
+}
+
+#signIn .submit {
+    line-height: 28px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#signIn .submit > p {
+  line-height: 13px;
+  clear: right;
+  text-align: center;
+}
+
+#signIn label.half,
+.half {
+    width: 50%;
+    display: inline-block;
+    float: left;
+}
+
+#forgotPassword {
+    color: #888784;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+}
+
+#signIn button.create {
+    font-size: 14px;
+    height: 28px;
+    padding: 0 10px;
+    float: right;
+}
+
+label {
+    display: block;
+    color: #62615F;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+}
+
+label.selectable {
+    cursor: pointer;
+}
+
+input[type=checkbox] + label {
+    display: inline;
+}
+
+.inputs > li > label {
+    color: #333;
+}
+
+.inputs > li > label.preselected {
+    font-weight: bold;
+}
+
+.inputs > li:only-child > label.selectable {
+    cursor: default;
+}
+
+.learn {
+    display: inline-block;
+    font-size: 12px;
+    color: #62615F;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+}
+
+footer .learn a {
+    color: #549FDC;
+}
+
+.checkregistration p {
+    color: #62615F;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+header {
+    padding: 20px;
+    font-weight: bold;
+    background-color: rgba(0,0,0,0.05);
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+    
+    -webkit-box-shadow: 0 -5px 5px -5px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow: 0 -5px 5px -5px rgba(0, 0, 0, 0.1) inset;
+         -o-box-shadow: 0 -5px 5px -5px rgba(0, 0, 0, 0.1) inset;
+            box-shadow: 0 -5px 5px -5px rgba(0, 0, 0, 0.1) inset;
+}
+
+header ul {
+    display: block;
+    float: left;
+}
+
+header ul li {
+    margin: 0 10px 0 0;
+    color: #222;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.5);
+}
+
+header,
+footer {
+    display: block;
+    width: 100%;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+footer {
+    padding: 20px;
+}
+
+.inputs {
+    margin: 1em 0 .5em;
+    padding: 0 1em;
+    line-height: 18px;
+}
+
+.pickemail .inputs {
+    max-height: 110px;
+    overflow-y: auto;
+    position: relative;
+}
+
+.form_section {
+    height: 176px;
+    position: relative;
+}
+
+.add {
+    font-size: 80%;
+}
+
+.inputs > li:only-child input[type=radio] {
+    display: none;
+}
+
+label[for=remember] {
+  display: inline;
+  margin-left: 13px;
+}
+
+#thisIsNotMe {
+  margin-right: 10px;
+  float: right;
+}
+
+#useNewEmail {
+  margin-left: 0.8em;
+}
+
+.pickemail .vertical a {
+  background-color: #F0EFED;
+  color: #4E4E4E;
+  font-size: 0.75em;
+  padding: 0 5px;
+  display: inline-block;
+  line-height: 18px;
+}
+
+.submit > button {
+    margin: 0 5px 0 0;
+}
+
+#newEmail {
+    -moz-box-flex: 1;
+}
+
+.newuser,
+.forgot,
+.returning {
+    display: none;
+}
+
+#create_text_section {
+    color: #222;
+}
+
+#checkemail {
+    text-align: center;
+}
+
