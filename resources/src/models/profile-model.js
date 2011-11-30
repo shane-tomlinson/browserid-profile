@@ -46,6 +46,8 @@
       };
 
 
+  // XXX Generalize this model stuff somehow!
+
   bid.Models = BrowserID.Models || {};
 
   bid.Models.Profile = BrowserID.Class({

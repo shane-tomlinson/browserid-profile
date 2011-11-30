@@ -49,7 +49,7 @@
     function printComment(comment, profile) {
       var template = $("#templateComment").html();
 
-      template = template.replace("{{name}}", profile.name)
+      template = template.replace("{{name}}", profile.name || "Anonymous")
                          .replace("{{email}}", profile.email)
                          .replace("{{photo}}", profile.photo)
                          .replace("{{comment}}", comment);

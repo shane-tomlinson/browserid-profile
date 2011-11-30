@@ -126,6 +126,7 @@
     });
 
     $("input[name=name]").val("Johnny Bravo");
+    $("input[for=name]").attr("checked", "checked");
 
     profileModule.ok();
   });

@@ -43,11 +43,12 @@ BrowserID.Modules.Profile = (function() {
       dom = bid.DOM,
       mediator = bid.Mediator;
 
+  // Try and generalize this into a form.
   function getSelector(key) {
     return "[name=" + key + "]";
   }
 
-  function createForm(model) {
+  function loadFormData(model) {
     model.keys().forEach(function(key) {
       dom.setInner(getSelector(key), model.get(key));
     });
@@ -55,6 +56,7 @@ BrowserID.Modules.Profile = (function() {
 
   function saveFormData() {
     var model = this.getStartData();
+
     model.keys().forEach(function(key) {
       model.set(key, dom.getInner(getSelector(key)));
     });
@@ -63,8 +65,12 @@ BrowserID.Modules.Profile = (function() {
   function getFormData() {
     var model = this.getStartData(),
         formData = {};
+
     model.keys().forEach(function(key) {
-      formData[key] = dom.getInner(getSelector(key));
+      var checked = !!dom.getAttr("input[for=" + key + "]", "checked");
+      if(checked) {
+        formData[key] = dom.getInner(getSelector(key));
+      }
     });
     
     return formData;
@@ -97,7 +103,7 @@ BrowserID.Modules.Profile = (function() {
       var self=this;
       Profile.sc.start.call(self, data);
 
-      createForm.call(self, data);
+      loadFormData.call(self, data);
 
       self.bind("form", "submit", formSubmit);
       self.bind("#ok", "click", ok);
