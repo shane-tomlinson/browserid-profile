@@ -38,18 +38,37 @@
   "use strict";
 
   var bid = BrowserID,
-      uploader = bid.Modules.PhotoUploader;
+      Uploader = bid.Modules.PhotoUploader,
+      uploader;
 
   module("modules/photo_uplaoder", {
     setup: function() {
+      uploader = Uploader.create();
     },
 
     teardown: function() {
+      uploader.destroy();
+      uploader = null;
     }
   });
 
-  test("ok", function() {
-    ok(true, "OK!");
+  asyncTest("handleFiles", function() {
+    uploader.start({
+      onchange: function(dataURI) {
+        ok(dataURI);
+        start();
+      }
+    });
+    
+    uploader.handleFiles([
+    {
+      mozFullPath: "/Users/stomlinson/development/browserid-profile/resources/testsite/i/icon.png",
+      type: "image/png",
+      name: "icon.png",
+      size: 2401
+    }
+    ]);
+
   });
 
 }());

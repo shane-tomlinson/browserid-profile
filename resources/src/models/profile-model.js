@@ -42,7 +42,7 @@
       schema = {
         name: { type: 'string' },
         email: { type: 'string' },
-        avatar: { type: 'string' }
+        photo: { type: 'string' }
       };
 
 

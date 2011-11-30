@@ -48,9 +48,18 @@ BrowserID.Modules.Profile = (function() {
     return "[name=" + key + "]";
   }
 
+  function useSrc(key) {
+    return key === "photo";
+  }
+
   function loadFormData(model) {
     model.keys().forEach(function(key) {
-      dom.setInner(getSelector(key), model.get(key));
+      if(useSrc(key)) {
+        dom.setAttr(getSelector(key), "src", model.get(key));
+      }
+      else {
+        dom.setInner(getSelector(key), model.get(key));
+      }
     });
   }
 
@@ -58,7 +67,12 @@ BrowserID.Modules.Profile = (function() {
     var model = this.getStartData();
 
     model.keys().forEach(function(key) {
-      model.set(key, dom.getInner(getSelector(key)));
+      if(useSrc(key)) {
+        model.set(key, dom.getAttr(getSelector(key), "src"));
+      }
+      else {
+        model.set(key, dom.getInner(getSelector(key)));
+      }
     });
   }
 
@@ -69,10 +83,15 @@ BrowserID.Modules.Profile = (function() {
     model.keys().forEach(function(key) {
       var checked = !!dom.getAttr("input[for=" + key + "]", "checked");
       if(checked) {
-        formData[key] = dom.getInner(getSelector(key));
+        if(useSrc(key)) {
+          formData[key] = dom.getAttr(getSelector(key), "src");
+        }
+        else {
+          formData[key] = dom.getInner(getSelector(key));
+        }
       }
     });
-    
+
     return formData;
   }
 
@@ -98,6 +117,12 @@ BrowserID.Modules.Profile = (function() {
     self.publish("profile_ready", formData);
   }
 
+  function setPhoto(uri) {
+    dom.setAttr("#photo", "src", uri);
+    var model = this.getStartData();
+    model.set("photo", uri);
+  }
+
   var Profile = bid.Modules.PageModule.extend({
     start: function(data) {
       var self=this;
@@ -107,10 +132,27 @@ BrowserID.Modules.Profile = (function() {
 
       self.bind("form", "submit", formSubmit);
       self.bind("#ok", "click", ok);
+
+      // XXX get this uploader stuff out of here!
+      if(!self.uploader) {
+        self.uploader = bid.Modules.PhotoUploader.create();
+      }
+
+      self.uploader.start({
+        onchange: setPhoto.bind(self) 
+      });
+    },
+
+    stop: function() {
+      var self=this;
+
+      Profile.sc.stop.call(self);
+      self.uploader.stop();
     },
 
     submit: formSubmit,
-    ok: ok
+    ok: ok,
+    setPhoto: setPhoto
   });
 
   return Profile;
